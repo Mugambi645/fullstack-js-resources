@@ -1,6 +1,7 @@
-const App = (props) => {
-  const { notes } = props
+import Note from "./components/Note"
 
+const App = ({ notes }) => {
+  
   return (
     <div>
       <h1>Notes</h1>
