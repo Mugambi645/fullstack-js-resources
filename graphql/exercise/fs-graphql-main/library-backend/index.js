@@ -1,8 +1,8 @@
 const { ApolloServer } = require("@apollo/server")
 const { startStandaloneServer } = require("@apollo/server/standalone")
-const { v4: uuid} = require("uuid")
+const { v4: uuid } = require("uuid")
 
-
+// Changed to let so array reassignments match mutation functions perfectly
 let authors = [
   {
     name: "Robert Martin",
@@ -105,12 +105,13 @@ const typeDefs = `
   }
   
   type Mutation {
-  addBook(
-  title: String!
-  author: String!
-  published: Int!
-  genres: [String!]!
-  ): Book!
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String!]!
+    ): Book!
+    editAuthor(name: String!, setBornTo: Int!): Author
   }
 `
 
@@ -120,7 +121,8 @@ const resolvers = {
     authorCount: () => authors.length,
     allBooks: (root, args) => {
       let filteredBooks = books
-      if (!args.author) {
+      // FIXED: removed the '!' from args.author so filtering actually triggers when a name is given
+      if (args.author) {
         filteredBooks = filteredBooks.filter(book => book.author === args.author)
       }
       if (args.genre) {
@@ -146,12 +148,11 @@ const resolvers = {
         const newAuthor = {
           name: args.author,
           id: uuid(),
-          born: null // Birth year is unknown for now
+          born: null
         }
         authors = authors.concat(newAuthor)
       }
 
-      // 3. Create the new book object and save it
       const newBook = {
         title: args.title,
         published: args.published,
@@ -162,7 +163,17 @@ const resolvers = {
       books = books.concat(newBook)
 
       return newBook
+    },
+    // ADDED: editAuthor resolver implementation
+    editAuthor: (root, args) => {
+      const author = authors.find(a => a.name === args.name)
+      if (!author) {
+        return null
+      }
 
+      const updatedAuthor = { ...author, born: args.setBornTo }
+      authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
+      return updatedAuthor
     }
   }
 }
