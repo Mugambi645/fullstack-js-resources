@@ -1,11 +1,8 @@
-# Ignore all node_modules directories anywhere
-node_modules/
-**/node_modules/
-
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-.pnp
+/node_modules
+/.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -14,14 +11,14 @@ node_modules/
 !.yarn/versions
 
 # testing
-coverage/
+/coverage
 
 # next.js
-.next/
-out/
+/.next/
+/out/
 
 # production
-build/
+/build
 
 # misc
 .DS_Store
@@ -33,11 +30,11 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
+# env files (can opt-in for committing if needed)
 .env*
 
 # vercel
-.vercel/
+.vercel
 
 # typescript
 *.tsbuildinfo
