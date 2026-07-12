@@ -1,0 +1,17 @@
+{
+  "name": "healthapp",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Patrick",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "calculateBmi": "node --experimental-strip-types bmiCalculator.ts",
+  "calculateExercises": "node --experimental-strip-types exerciseCalculator.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
+  }
+}
